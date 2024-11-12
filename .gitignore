@@ -1,0 +1,66 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment 
+env/
+ENV/
+.venv/
+venv/
+env.bak/
+venv.bak/
+
+# Configuration และ Environment Variables
+*.env
+
+# Pytest
+.cache/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# SQLAlchemy
+alembic/versions/*.pyc
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Docker
+*.log
+docker-compose.override.yml
+# docker-compose.yml
+# Dockerfile*
+*.pid
+
+# MacOS และ Linux
+.DS_Store
+.nfs*
+
+# Logs and temp files
+*.log
+*.sqlite3
+*.db
+logs/
+temp/
+tmp/
+
+# Coverage reports
+htmlcov/
+*.cover
+*.py,cover
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.coveragerc
