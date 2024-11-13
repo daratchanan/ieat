@@ -15,7 +15,6 @@ class AirNextOneDayResponse(BaseModel):
     temp_min: float = Field(alias="temp_min")
     temp_max: float = Field(alias="temp_max")
     ws_max: float = Field(alias="ws_max")
-    month: int = Field(alias="month")
     aqi_predict: float = Field(alias="aqi_predict")
 
     class Config:

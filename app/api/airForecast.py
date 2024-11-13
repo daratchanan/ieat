@@ -13,7 +13,7 @@ router = APIRouter()
 @router.post("/airForecastOneDay", response_model=List[AirNextOneDayResponse])
 async def getAirForecastOneDay(request: ForecastRequest, db: AsyncSession = Depends(get_db)):
     request_text = f"""
-                    SELECT amphoe, province , air_device_id, lat_air_device, long_air_device , rain, rh_min , rh_max , rh_mean , wd_max , "temp" ,temp_min , temp_max , ws_max , "month" , aqi_predict 
+                    SELECT amphoe, province , air_device_id, lat_air_device, long_air_device , rain, rh_min , rh_max , rh_mean , wd_max , "temp" ,temp_min , temp_max , ws_max , aqi_predict 
                     FROM analysis.airquality_next1day_prediction
                     where siteid = '{request.sideid}' and forecast_date = '{request.forecast_date}'
     """
@@ -34,7 +34,7 @@ async def getAirForecastOneDay(request: ForecastRequest, db: AsyncSession = Depe
 async def getAirForecastThreeDay(request: ForecastRequest, db: AsyncSession = Depends(get_db)):
     request_text = f"""
                     SELECT amphoe ,province ,air_device_id ,lat_air_device , long_air_device ,rain_next_3day , rh_min_next_3day , rh_max_next_3day , rh_mean_next_3day , wd_max_next_3day ,temp_next_3day , temp_min_next_3day ,temp_max_next_3day ,
-                    ws_max_next_3day ,"month" ,aqi_3day_predict ,pm25_3day_predict , pm10_3day_predict 
+                    ws_max_next_3day ,aqi_3day_predict ,pm25_3day_predict , pm10_3day_predict 
                     FROM analysis.airquality_next3day_prediction
                     where siteid = '{request.sideid}' and forecast_date = '{request.forecast_date}'
     """

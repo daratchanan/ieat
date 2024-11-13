@@ -15,7 +15,6 @@ class AirNextThreeDayResponse(BaseModel):
     temp_min_next_3day: float = Field(alias="temp_min_next_3day")
     temp_max_next_3day: float = Field(alias="temp_max_next_3day")
     ws_max_next_3day: float = Field(alias="ws_max_next_3day")
-    month: int = Field(alias="month")
     aqi_3day_predict: float = Field(alias="aqi_3day_predict")
     pm25_3day_predict: float = Field(alias="pm25_3day_predict")
     pm10_3day_predict: float = Field(alias="pm10_3day_predict")
