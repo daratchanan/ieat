@@ -1,6 +1,10 @@
+from datetime import date
+from typing import List
 from pydantic import BaseModel, Field
 
-class AirNextOneDayResponse(BaseModel):
+class AirNextOneDayData(BaseModel):
+    siteid: str = Field(alias="siteid")
+    sitename: str = Field(alias="sitename")
     amphoe: str = Field(alias="amphoe")
     province: str = Field(alias="province")
     air_device_id: str = Field(alias="air_device_id")
@@ -16,6 +20,13 @@ class AirNextOneDayResponse(BaseModel):
     temp_max: float = Field(alias="temp_max")
     ws_max: float = Field(alias="ws_max")
     aqi_predict: float = Field(alias="aqi_predict")
+
+    class Config:
+        orm_mode = True
+
+class AirNextOneDayResponse(BaseModel):
+    forecast_date: date = Field(alias="forecast_date")
+    forecast_data: List[AirNextOneDayData]
 
     class Config:
         orm_mode = True
