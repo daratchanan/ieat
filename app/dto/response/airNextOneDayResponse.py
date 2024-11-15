@@ -22,11 +22,11 @@ class AirNextOneDayData(BaseModel):
     aqi_predict: float = Field(alias="aqi_predict")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AirNextOneDayResponse(BaseModel):
     forecast_date: date = Field(alias="forecast_date")
     forecast_data: List[AirNextOneDayData]
 
     class Config:
-        orm_mode = True
+        from_attributes = True

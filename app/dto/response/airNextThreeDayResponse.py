@@ -24,11 +24,11 @@ class AirNextThreeDayData(BaseModel):
     pm10_3day_predict: float = Field(alias="pm10_3day_predict")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AirNextThreeDayResponse(BaseModel):
     forecast_date: date = Field(alias="forecast_date")
     forecast_data: List[AirNextThreeDayData]
     
     class Config:
-        orm_mode = True
+        from_attributes = True

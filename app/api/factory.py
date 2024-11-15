@@ -3,16 +3,17 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.core.database import get_db
 from typing import List
-from app.dto.response.industrialEstateResponse import IndustrialEstateResponse
+from app.dto.response.factoryResponse import FactoryResponse
+
 
 router = APIRouter()
 
 
-@router.get("/industrialEstates/", response_model=List[IndustrialEstateResponse])
-async def getIndustrialEstates(db: AsyncSession = Depends(get_db)):
+@router.get("/factory", response_model=List[FactoryResponse])
+async def getFactory(db: AsyncSession = Depends(get_db)):
     query = text('''
-        SELECT DISTINCT siteid AS siteid, sitename AS sitename
-        FROM analysis.airquality_next1day_prediction
+        SELECT fid AS fid, namethai AS namethai, nameeng AS nameeng
+        FROM analysis.fire_accident_prediction
     ''')
     
     result = await db.execute(query)
@@ -21,7 +22,7 @@ async def getIndustrialEstates(db: AsyncSession = Depends(get_db)):
     if not rows:
         raise HTTPException(status_code=404, detail = "Data not found.")
     
-    items = [IndustrialEstateResponse(**dict(row._mapping)) for row in rows]
+    items = [FactoryResponse(**dict(row._mapping)) for row in rows]
 
     return items
 

@@ -4,7 +4,6 @@ from fastapi import APIRouter,  Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.core.database import get_db
-from app.dto.request.forecastRequest import ForecastRequest
 from app.dto.response.airNextOneDayResponse import AirNextOneDayData, AirNextOneDayResponse
 from app.dto.response.airNextThreeDayResponse import AirNextThreeDayData, AirNextThreeDayResponse
 
@@ -43,7 +42,6 @@ async def getAirOneDay(
     result = await db.execute(query)
     rows = result.mappings().all()  # ใช้ mappings() เพื่อให้เข้าถึงคอลัมน์ด้วยชื่อได้
 
-    # ถ้าไม่มีข้อมูลให้คืนค่า HTTPException 404
     if not rows:
         raise HTTPException(status_code=404, detail="Data not found.")
     
@@ -87,7 +85,6 @@ async def getAirOneDay(
 
 
 
-
 @router.get("/airForecastThreeDay", response_model=List[AirNextThreeDayResponse])
 async def getAirThreeDay(
     siteid: Optional[str] = None, 
@@ -102,15 +99,18 @@ async def getAirThreeDay(
 
     if siteid:
         request_text = f"""
-                        SELECT siteid, sitename, amphoe ,province ,forecast_date, air_device_id ,lat_air_device , long_air_device ,rain_next_3day , rh_min_next_3day , rh_max_next_3day , rh_mean_next_3day , wd_max_next_3day ,temp_next_3day , temp_min_next_3day ,temp_max_next_3day ,
-                        ws_max_next_3day ,aqi_3day_predict ,pm25_3day_predict , pm10_3day_predict 
+                        SELECT siteid, sitename, amphoe ,province ,forecast_date, air_device_id ,
+                        lat_air_device , long_air_device ,rain_next_3day , rh_min_next_3day , 
+                        rh_max_next_3day , rh_mean_next_3day , wd_max_next_3day ,temp_next_3day , temp_min_next_3day ,temp_max_next_3day ,ws_max_next_3day ,aqi_3day_predict ,pm25_3day_predict , pm10_3day_predict 
                         FROM analysis.airquality_next3day_prediction
-                        where siteid = '{siteid}' and forecast_date >= '{start_date}' and forecast_date <= '{end_date}'
+                        where siteid = '{siteid}' and forecast_date >= '{start_date}' and 
+                        forecast_date <= '{end_date}'
         """
     else:
         request_text = f"""
-                        SELECT siteid, sitename, amphoe ,province ,forecast_date, air_device_id ,lat_air_device , long_air_device ,rain_next_3day , rh_min_next_3day , rh_max_next_3day , rh_mean_next_3day , wd_max_next_3day ,temp_next_3day , temp_min_next_3day ,temp_max_next_3day ,
-                        ws_max_next_3day ,aqi_3day_predict ,pm25_3day_predict , pm10_3day_predict 
+                        SELECT siteid, sitename, amphoe ,province ,forecast_date, air_device_id ,
+                        lat_air_device , long_air_device ,rain_next_3day , rh_min_next_3day , 
+                        rh_max_next_3day , rh_mean_next_3day , wd_max_next_3day ,temp_next_3day , temp_min_next_3day ,temp_max_next_3day ,ws_max_next_3day ,aqi_3day_predict ,pm25_3day_predict , pm10_3day_predict 
                         FROM analysis.airquality_next3day_prediction
                         where forecast_date >= '{start_date}' and forecast_date <= '{end_date}'
         """
