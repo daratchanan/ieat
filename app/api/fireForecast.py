@@ -13,6 +13,8 @@ router = APIRouter()
 async def getFireForecast(
     fid: Optional[str] = None,
     year_month: Optional[str] = None,
+    predict: Optional[int] = None,
+    level: Optional[int] = None,
     db: AsyncSession = Depends(get_db)
 ):
     
@@ -22,21 +24,39 @@ async def getFireForecast(
         next_month = today.month % 12 + 1
         year = today.year if next_month != 1 else today.year + 1
         year_month = f"{year:04d}-{next_month:02d}"
+    
+    if predict == None:
+        predict = 1
 
-    request_text = ""
 
+    if level == 0:
+        level = 'ไม่มีความเสี่ยง'
+    elif level == 1:
+        level = 'มีความเสี่ยงน้อย'
+    elif level == 2:
+        level = 'มีความเสี่ยงปานกลาง'
+    elif level == 3:
+        level = 'มีความเสี่ยงสูง'
+   
+    
+    request_text =f"""
+                SELECT fcid, namethai, nameeng, fid, ieatname, facgroupname,  ieatzone, year_month, factory_age_month, predict, prob, "level"
+                FROM analysis.fire_accident_prediction
+                WHERE year_month = '{year_month}' and predict = {predict}                  
+        """
+    
     if fid:
-        request_text = f"""
-                        SELECT fcid, namethai, nameeng, fid, ieatname, facgroupname,  ieatzone, year_month, factory_age_month, predict, prob, "level"
-                        FROM analysis.fire_accident_prediction
-                        where fid = '{fid}' and year_month = '{year_month}'
-        """
-    else:
-        request_text = f"""
-                        SELECT fcid, namethai, nameeng, fid, ieatname, facgroupname,  ieatzone, year_month, factory_age_month, predict, prob, "level"
-                        FROM analysis.fire_accident_prediction
-                        where year_month = '{year_month}'
-        """
+        fid_text = f"""
+                and fid = '{fid}' 
+            """
+        request_text = request_text + fid_text
+
+    if level:
+        level_text = f"""
+                and level = '{level}'
+            """
+        request_text = request_text + level_text
+
 
     query = text(request_text)
 
