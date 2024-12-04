@@ -12,7 +12,7 @@ router = APIRouter()
 @router.get("/factory", response_model=List[FactoryResponse])
 async def getFactory(db: AsyncSession = Depends(get_db)):
     query = text('''
-        SELECT fid AS fid, namethai AS namethai, nameeng AS nameeng
+        SELECT distinct fid AS fid, namethai AS namethai, nameeng AS nameeng
         FROM analysis.fire_accident_prediction
     ''')
     
