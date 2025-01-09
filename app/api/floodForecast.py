@@ -32,7 +32,8 @@ async def getFloodOneDay(
         SELECT siteid, sitename, forecast_date, water_device_id, water_device_lat, water_device_long,
                 level_max, vol_max, rain, rh_min, rh_max, rh_mean, wd_max, 
                 "temp", temp_min, temp_max, ws_max, wl_3day_min, wl_3day_max, wl_3day_mean, wl_vol_3day_min, wl_vol_3day_max, wl_vol_3day_mean, 
-                predict_90_tank, prob_90_tank, predict_95_tank, prob_95_tank
+                predict_90_tank, prob_90_tank, predict_95_tank, prob_95_tank, 
+                water_warning_level, water_warning_order
         FROM analysis.flood_next1day_prediction
         WHERE forecast_date = :forecast_date 
                 and predict_90_tank = :predict_90_tank 
@@ -90,7 +91,9 @@ async def getFloodOneDay(
             predict_90_tank=row["predict_90_tank"],
             prob_90_tank=row["prob_90_tank"],
             predict_95_tank=row["predict_95_tank"],
-            prob_95_tank=row["prob_95_tank"]
+            prob_95_tank=row["prob_95_tank"],
+            water_warning_level=row["water_warning_level"],
+            water_warning_order=row["water_warning_order"]
         ))
 
     items = [
@@ -131,7 +134,8 @@ async def getFloodThreeDay(
                 level_max, vol_max, rain_next_3day, rh_min_next_3day, rh_max_next_3day, rh_mean_next_3day, wd_max_next_3day, "temp_next_3day", temp_min_next_3day, temp_max_next_3day, 
                 ws_max_next_3day, wl_3day_min, wl_3day_max, wl_3day_mean, 
                 wl_vol_3day_min, wl_vol_3day_max, wl_vol_3day_mean, 
-                predict_90_tank, prob_90_tank, predict_95_tank, prob_95_tank
+                predict_90_tank, prob_90_tank, predict_95_tank, prob_95_tank,
+                water_warning_level, water_warning_order
         FROM analysis.flood_next3day_prediction
         WHERE forecast_date >= :start_date and forecast_date <= :end_date
                 and predict_90_tank = :predict_90_tank 
@@ -190,7 +194,9 @@ async def getFloodThreeDay(
             predict_90_tank=row["predict_90_tank"],
             prob_90_tank=row["prob_90_tank"],
             predict_95_tank=row["predict_95_tank"],
-            prob_95_tank=row["prob_95_tank"]
+            prob_95_tank=row["prob_95_tank"],
+            water_warning_level=row["water_warning_level"],
+            water_warning_order=row["water_warning_order"]
         ))
 
     items = [

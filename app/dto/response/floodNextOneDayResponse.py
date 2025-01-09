@@ -29,6 +29,8 @@ class FloodNextOneDayData(BaseModel):
     prob_90_tank: float = Field(alias="prob_90_tank")
     predict_95_tank: int = Field(alias="predict_95_tank")
     prob_95_tank: float = Field(alias="prob_95_tank")
+    water_warning_level: str = Field(alias="water_warning_level")
+    water_warning_order: int = Field(alias="water_warning_order")
 
     class Config:
         from_attributes = True
